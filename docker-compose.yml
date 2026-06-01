@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: civic_transparency
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d civic_transparency"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/civic_transparency
+      NEXT_PUBLIC_DEMO_MODE: "false"
+      CIVIC_REFRESH_ON_START: "true"
+      CIVIC_DATA_CACHE_TTL_MS: "300000"
+      CONGRESS_API_KEY: ${CONGRESS_API_KEY:-}
+      GOVINFO_API_KEY: ${GOVINFO_API_KEY:-}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/live:/app/data/live
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health | grep -q '\"ok\":true'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  data-refresh:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      web:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/civic_transparency
+      CONGRESS_API_KEY: ${CONGRESS_API_KEY:-}
+      GOVINFO_API_KEY: ${GOVINFO_API_KEY:-}
+      CIVIC_REFRESH_INTERVAL_SECONDS: ${CIVIC_REFRESH_INTERVAL_SECONDS:-21600}
+    volumes:
+      - ./data/live:/app/data/live
+    command: >
+      sh -c "while true; do
+      npm run etl:live || echo 'Live refresh failed; keeping previous cached dataset.';
+      sleep $${CIVIC_REFRESH_INTERVAL_SECONDS};
+      done"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

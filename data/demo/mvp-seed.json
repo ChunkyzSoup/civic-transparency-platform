@@ -1,0 +1,940 @@
+{
+  "metadata": {
+    "mode": "demo",
+    "version": "0.3.0",
+    "methodologyVersion": "mvp-v2",
+    "disclaimer": "All people, donors, bills, votes, assessments, and review signals in this seed snapshot are synthetic demo records created to illustrate the product safely.",
+    "factsAsOf": "2026-04-02",
+    "sourcesLastCheckedAt": "2026-04-02",
+    "currentCongress": 119,
+    "currentElectionCycle": 2026,
+    "congressScopes": [
+      {
+        "congress": 119,
+        "label": "119th Congress",
+        "electionCycle": 2026,
+        "sessions": [1],
+        "isDefault": true
+      },
+      {
+        "congress": 118,
+        "label": "118th Congress",
+        "electionCycle": 2024,
+        "sessions": [1, 2],
+        "isDefault": false
+      }
+    ]
+  },
+  "industries": [
+    {
+      "slug": "clean-energy",
+      "name": "Clean Energy",
+      "description": "Organizations tied to renewable generation, storage, and grid modernization."
+    },
+    {
+      "slug": "pipeline-infrastructure",
+      "name": "Pipeline Infrastructure",
+      "description": "Organizations tied to pipeline construction, permitting, and fossil fuel transport."
+    },
+    {
+      "slug": "transportation-contracting",
+      "name": "Transportation Contracting",
+      "description": "Organizations tied to bridge, road, and public works construction."
+    }
+  ],
+  "topics": [
+    {
+      "slug": "grid-modernization",
+      "name": "Grid Modernization",
+      "description": "Power grid upgrades, storage, and transmission expansion."
+    },
+    {
+      "slug": "pipeline-permitting",
+      "name": "Pipeline Permitting",
+      "description": "Pipeline approval, siting, and permitting processes."
+    },
+    {
+      "slug": "bridge-safety",
+      "name": "Bridge Safety",
+      "description": "Bridge inspection, repair, and modernization."
+    }
+  ],
+  "committees": [
+    {
+      "slug": "senate-energy-natural-resources",
+      "name": "Senate Committee on Energy and Natural Resources",
+      "chamber": "SENATE",
+      "summary": "Handles energy policy, natural resources, and related oversight.",
+      "sourceSlugs": ["demo-methodology", "senate-xml-index"]
+    },
+    {
+      "slug": "house-transportation-infrastructure",
+      "name": "House Committee on Transportation and Infrastructure",
+      "chamber": "HOUSE",
+      "summary": "Handles transportation systems, public works, and infrastructure policy.",
+      "sourceSlugs": ["demo-methodology", "house-clerk-member-guide"]
+    },
+    {
+      "slug": "senate-commerce-science-transportation",
+      "name": "Senate Committee on Commerce, Science, and Transportation",
+      "chamber": "SENATE",
+      "summary": "Handles transportation, commerce, consumer protection, and science policy.",
+      "sourceSlugs": ["demo-methodology", "senate-xml-index"]
+    }
+  ],
+  "people": [
+    {
+      "slug": "sen-maria-torres",
+      "displayName": "Sen. Maria Torres",
+      "firstName": "Maria",
+      "lastName": "Torres",
+      "party": "DEMOCRATIC",
+      "chamber": "SENATE",
+      "state": "CO",
+      "district": null,
+      "officeLabel": "U.S. Senator from Colorado",
+      "summary": "Synthetic demo senator used to illustrate contextual review signals under the stricter MVP rules.",
+      "committees": ["senate-energy-natural-resources"],
+      "committeeAssignments": [
+        {
+          "committeeSlug": "senate-energy-natural-resources",
+          "congress": 119
+        },
+        {
+          "committeeSlug": "senate-energy-natural-resources",
+          "congress": 118
+        }
+      ],
+      "campaignCommittee": {
+        "slug": "torres-for-senate",
+        "name": "Torres for Senate"
+      },
+      "sourceSlugs": ["demo-methodology", "senate-xml-index"]
+    },
+    {
+      "slug": "rep-james-whitaker",
+      "displayName": "Rep. James Whitaker",
+      "firstName": "James",
+      "lastName": "Whitaker",
+      "party": "REPUBLICAN",
+      "chamber": "HOUSE",
+      "state": "OH",
+      "district": "07",
+      "officeLabel": "U.S. Representative for Ohio's 7th District",
+      "summary": "Synthetic demo representative used to illustrate profile-level timing and repeat-pattern indicators.",
+      "committees": ["house-transportation-infrastructure"],
+      "committeeAssignments": [
+        {
+          "committeeSlug": "house-transportation-infrastructure",
+          "congress": 119
+        },
+        {
+          "committeeSlug": "house-transportation-infrastructure",
+          "congress": 118
+        }
+      ],
+      "campaignCommittee": {
+        "slug": "whitaker-for-congress",
+        "name": "Whitaker for Congress"
+      },
+      "sourceSlugs": ["demo-methodology", "house-clerk-member-guide"]
+    },
+    {
+      "slug": "sen-alex-chen",
+      "displayName": "Sen. Alex Chen",
+      "firstName": "Alex",
+      "lastName": "Chen",
+      "party": "INDEPENDENT",
+      "chamber": "SENATE",
+      "state": "WA",
+      "district": null,
+      "officeLabel": "U.S. Senator from Washington",
+      "summary": "Synthetic demo senator included to show that the system should often return insufficient evidence to score.",
+      "committees": ["senate-commerce-science-transportation"],
+      "committeeAssignments": [
+        {
+          "committeeSlug": "senate-commerce-science-transportation",
+          "congress": 119
+        },
+        {
+          "committeeSlug": "senate-commerce-science-transportation",
+          "congress": 118
+        }
+      ],
+      "campaignCommittee": {
+        "slug": "chen-for-senate",
+        "name": "Chen for Senate"
+      },
+      "sourceSlugs": ["demo-methodology", "senate-xml-index"]
+    }
+  ],
+  "organizations": [
+    {
+      "slug": "clean-grid-pac",
+      "name": "Clean Grid PAC",
+      "organizationType": "PAC",
+      "connectedOrgName": "Clean Grid Association",
+      "summary": "Synthetic demo PAC representing clean-energy interests.",
+      "industryAssignments": [
+        {
+          "industrySlug": "clean-energy",
+          "method": "MANUAL_RESEARCH",
+          "confidence": "high",
+          "isDocumented": true
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "slug": "national-pipeline-alliance-pac",
+      "name": "National Pipeline Alliance PAC",
+      "organizationType": "PAC",
+      "connectedOrgName": "National Pipeline Alliance",
+      "summary": "Synthetic demo PAC representing pipeline infrastructure interests.",
+      "industryAssignments": [
+        {
+          "industrySlug": "pipeline-infrastructure",
+          "method": "MANUAL_RESEARCH",
+          "confidence": "high",
+          "isDocumented": true
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "slug": "bridge-builders-action-fund",
+      "name": "Bridge Builders Action Fund",
+      "organizationType": "PAC",
+      "connectedOrgName": "Bridge Builders Coalition",
+      "summary": "Synthetic demo PAC representing transportation contracting interests.",
+      "industryAssignments": [
+        {
+          "industrySlug": "transportation-contracting",
+          "method": "MANUAL_RESEARCH",
+          "confidence": "medium",
+          "isDocumented": false
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    }
+  ],
+  "bills": [
+    {
+      "slug": "s1880-western-grid-reliability-act",
+      "congress": 118,
+      "chamber": "SENATE",
+      "billType": "S",
+      "billNumber": 1880,
+      "displayNumber": "S. 1880",
+      "title": "Western Grid Reliability Act",
+      "summary": "Synthetic demo bill focused on transmission reliability standards, storage planning, and regional grid resilience.",
+      "topics": ["grid-modernization"],
+      "committees": ["senate-energy-natural-resources"],
+      "sourceSlugs": ["demo-methodology", "congress-api-overview", "govinfo-bills-help"]
+    },
+    {
+      "slug": "hr2710-pipeline-corridor-modernization-act",
+      "congress": 118,
+      "chamber": "HOUSE",
+      "billType": "HR",
+      "billNumber": 2710,
+      "displayNumber": "H.R. 2710",
+      "title": "Pipeline Corridor Modernization Act",
+      "summary": "Synthetic demo bill focused on pipeline corridor maintenance, federal permitting timelines, and interstate coordination.",
+      "topics": ["pipeline-permitting"],
+      "committees": ["house-transportation-infrastructure"],
+      "sourceSlugs": ["demo-methodology", "congress-api-overview", "govinfo-bills-help"]
+    },
+    {
+      "slug": "s214-clean-grid-acceleration-act",
+      "congress": 119,
+      "chamber": "SENATE",
+      "billType": "S",
+      "billNumber": 214,
+      "displayNumber": "S. 214",
+      "title": "Clean Grid Acceleration Act",
+      "summary": "Synthetic demo bill focused on transmission upgrades, storage incentives, and grid modernization planning.",
+      "topics": ["grid-modernization"],
+      "committees": ["senate-energy-natural-resources"],
+      "sourceSlugs": ["demo-methodology", "congress-api-overview", "govinfo-bills-help"]
+    },
+    {
+      "slug": "hr1187-pipeline-permitting-streamlining-act",
+      "congress": 119,
+      "chamber": "HOUSE",
+      "billType": "HR",
+      "billNumber": 1187,
+      "displayNumber": "H.R. 1187",
+      "title": "Pipeline Permitting Streamlining Act",
+      "summary": "Synthetic demo bill focused on pipeline review timelines and permitting changes.",
+      "topics": ["pipeline-permitting"],
+      "committees": ["house-transportation-infrastructure"],
+      "sourceSlugs": ["demo-methodology", "congress-api-overview", "govinfo-bills-help"]
+    },
+    {
+      "slug": "hr4021-bridge-safety-modernization-act",
+      "congress": 119,
+      "chamber": "HOUSE",
+      "billType": "HR",
+      "billNumber": 4021,
+      "displayNumber": "H.R. 4021",
+      "title": "Bridge Safety Modernization Act",
+      "summary": "Synthetic demo bill focused on bridge inspection funding and modernization grants.",
+      "topics": ["bridge-safety"],
+      "committees": ["house-transportation-infrastructure"],
+      "sourceSlugs": ["demo-methodology", "congress-api-overview", "govinfo-bills-help"]
+    }
+  ],
+  "votes": [
+    {
+      "id": "senate-118-2-201",
+      "slug": "senate-118-2-201",
+      "congress": 118,
+      "session": 2,
+      "chamber": "SENATE",
+      "rollCallNumber": 201,
+      "question": "On Passage of S. 1880, the Western Grid Reliability Act",
+      "resultText": "Passed 61-39",
+      "voteDate": "2024-09-18T00:00:00.000Z",
+      "billSlug": "s1880-western-grid-reliability-act",
+      "positions": [
+        {
+          "personSlug": "sen-maria-torres",
+          "choice": "YEA"
+        },
+        {
+          "personSlug": "sen-alex-chen",
+          "choice": "NAY"
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "senate-xml-index"]
+    },
+    {
+      "id": "house-118-2-441",
+      "slug": "house-118-2-441",
+      "congress": 118,
+      "session": 2,
+      "chamber": "HOUSE",
+      "rollCallNumber": 441,
+      "question": "On Passage of H.R. 2710, the Pipeline Corridor Modernization Act",
+      "resultText": "Passed 227-206",
+      "voteDate": "2024-10-03T00:00:00.000Z",
+      "billSlug": "hr2710-pipeline-corridor-modernization-act",
+      "positions": [
+        {
+          "personSlug": "rep-james-whitaker",
+          "choice": "YEA"
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "house-votes-index"]
+    },
+    {
+      "id": "senate-119-1-77",
+      "slug": "senate-119-1-77",
+      "congress": 119,
+      "session": 1,
+      "chamber": "SENATE",
+      "rollCallNumber": 77,
+      "question": "On Passage of S. 214, the Clean Grid Acceleration Act",
+      "resultText": "Passed 58-42",
+      "voteDate": "2026-02-12T00:00:00.000Z",
+      "billSlug": "s214-clean-grid-acceleration-act",
+      "positions": [
+        {
+          "personSlug": "sen-maria-torres",
+          "choice": "YEA"
+        },
+        {
+          "personSlug": "sen-alex-chen",
+          "choice": "NAY"
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "senate-xml-index"]
+    },
+    {
+      "id": "house-119-1-312",
+      "slug": "house-119-1-312",
+      "congress": 119,
+      "session": 1,
+      "chamber": "HOUSE",
+      "rollCallNumber": 312,
+      "question": "On Passage of H.R. 1187, the Pipeline Permitting Streamlining Act",
+      "resultText": "Passed 221-214",
+      "voteDate": "2026-03-06T00:00:00.000Z",
+      "billSlug": "hr1187-pipeline-permitting-streamlining-act",
+      "positions": [
+        {
+          "personSlug": "rep-james-whitaker",
+          "choice": "YEA"
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "house-votes-index"]
+    },
+    {
+      "id": "house-119-1-329",
+      "slug": "house-119-1-329",
+      "congress": 119,
+      "session": 1,
+      "chamber": "HOUSE",
+      "rollCallNumber": 329,
+      "question": "On Passage of H.R. 4021, the Bridge Safety Modernization Act",
+      "resultText": "Passed 389-38",
+      "voteDate": "2026-03-22T00:00:00.000Z",
+      "billSlug": "hr4021-bridge-safety-modernization-act",
+      "positions": [
+        {
+          "personSlug": "rep-james-whitaker",
+          "choice": "YEA"
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "house-votes-index"]
+    }
+  ],
+  "contributions": [
+    {
+      "id": "contrib-7",
+      "congress": 118,
+      "organizationSlug": "clean-grid-pac",
+      "recipientPersonSlug": "sen-maria-torres",
+      "recipientCommitteeSlug": "torres-for-senate",
+      "amount": 21000,
+      "contributionDate": "2024-08-01T00:00:00.000Z",
+      "cycle": 2024,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-8",
+      "congress": 118,
+      "organizationSlug": "clean-grid-pac",
+      "recipientPersonSlug": "sen-maria-torres",
+      "recipientCommitteeSlug": "torres-for-senate",
+      "amount": 15000,
+      "contributionDate": "2024-06-17T00:00:00.000Z",
+      "cycle": 2024,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-9",
+      "congress": 118,
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "recipientPersonSlug": "rep-james-whitaker",
+      "recipientCommitteeSlug": "whitaker-for-congress",
+      "amount": 26000,
+      "contributionDate": "2024-09-06T00:00:00.000Z",
+      "cycle": 2024,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-10",
+      "congress": 118,
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "recipientPersonSlug": "rep-james-whitaker",
+      "recipientCommitteeSlug": "whitaker-for-congress",
+      "amount": 14000,
+      "contributionDate": "2024-07-29T00:00:00.000Z",
+      "cycle": 2024,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-11",
+      "congress": 118,
+      "organizationSlug": "bridge-builders-action-fund",
+      "recipientPersonSlug": "sen-alex-chen",
+      "recipientCommitteeSlug": "chen-for-senate",
+      "amount": 4000,
+      "contributionDate": "2024-05-20T00:00:00.000Z",
+      "cycle": 2024,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-1",
+      "congress": 119,
+      "organizationSlug": "clean-grid-pac",
+      "recipientPersonSlug": "sen-maria-torres",
+      "recipientCommitteeSlug": "torres-for-senate",
+      "amount": 25000,
+      "contributionDate": "2026-01-15T00:00:00.000Z",
+      "cycle": 2026,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-2",
+      "congress": 119,
+      "organizationSlug": "clean-grid-pac",
+      "recipientPersonSlug": "sen-maria-torres",
+      "recipientCommitteeSlug": "torres-for-senate",
+      "amount": 18000,
+      "contributionDate": "2025-12-12T00:00:00.000Z",
+      "cycle": 2026,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-3",
+      "congress": 119,
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "recipientPersonSlug": "rep-james-whitaker",
+      "recipientCommitteeSlug": "whitaker-for-congress",
+      "amount": 40000,
+      "contributionDate": "2026-02-18T00:00:00.000Z",
+      "cycle": 2026,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-4",
+      "congress": 119,
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "recipientPersonSlug": "rep-james-whitaker",
+      "recipientCommitteeSlug": "whitaker-for-congress",
+      "amount": 35000,
+      "contributionDate": "2025-11-20T00:00:00.000Z",
+      "cycle": 2026,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-5",
+      "congress": 119,
+      "organizationSlug": "bridge-builders-action-fund",
+      "recipientPersonSlug": "rep-james-whitaker",
+      "recipientCommitteeSlug": "whitaker-for-congress",
+      "amount": 12000,
+      "contributionDate": "2026-03-01T00:00:00.000Z",
+      "cycle": 2026,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "id": "contrib-6",
+      "congress": 119,
+      "organizationSlug": "bridge-builders-action-fund",
+      "recipientPersonSlug": "sen-alex-chen",
+      "recipientCommitteeSlug": "chen-for-senate",
+      "amount": 5000,
+      "contributionDate": "2026-01-04T00:00:00.000Z",
+      "cycle": 2026,
+      "contributionType": "CONTRIBUTION",
+      "verified": true,
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    }
+  ],
+  "assessments": [
+    {
+      "slug": "maria-grid-118-assessment",
+      "congress": 118,
+      "status": "ELIGIBLE",
+      "linkageConfidence": "HIGH",
+      "manualReviewRequired": false,
+      "eligibleFactorCount": 4,
+      "personSlug": "sen-maria-torres",
+      "organizationSlug": "clean-grid-pac",
+      "billSlug": "s1880-western-grid-reliability-act",
+      "voteSlug": "senate-118-2-201",
+      "contributionIds": ["contrib-7", "contrib-8"],
+      "publicReason": "Verified committee-origin contributions occurred before a Senate vote in the selected Congress, the member served on the related committee, and the topic alignment is documented at high confidence.",
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "senate-xml-index"]
+    },
+    {
+      "slug": "whitaker-pipeline-118-assessment",
+      "congress": 118,
+      "status": "ELIGIBLE",
+      "linkageConfidence": "HIGH",
+      "manualReviewRequired": false,
+      "eligibleFactorCount": 4,
+      "personSlug": "rep-james-whitaker",
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "billSlug": "hr2710-pipeline-corridor-modernization-act",
+      "voteSlug": "house-118-2-441",
+      "contributionIds": ["contrib-9", "contrib-10"],
+      "publicReason": "Verified committee-origin contributions occurred before a House vote in the selected Congress, repeated support was present in the selected cycle, and the member served on the related committee.",
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "house-clerk-member-guide", "house-votes-index"]
+    },
+    {
+      "slug": "chen-118-bridge-assessment",
+      "congress": 118,
+      "status": "INSUFFICIENT_EVIDENCE",
+      "linkageConfidence": "LOW",
+      "manualReviewRequired": false,
+      "eligibleFactorCount": 1,
+      "personSlug": "sen-alex-chen",
+      "organizationSlug": "bridge-builders-action-fund",
+      "billSlug": null,
+      "voteSlug": null,
+      "contributionIds": ["contrib-11"],
+      "exclusionReasonCode": "MISSING_VERIFIED_LEGISLATIVE_ACTION",
+      "publicReason": "Insufficient evidence to score because the selected Congress slice contains a verified money record but no verified legislative action tied to the same scoped pattern.",
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "slug": "maria-clean-grid-assessment",
+      "congress": 119,
+      "status": "ELIGIBLE",
+      "linkageConfidence": "HIGH",
+      "manualReviewRequired": false,
+      "eligibleFactorCount": 3,
+      "personSlug": "sen-maria-torres",
+      "organizationSlug": "clean-grid-pac",
+      "billSlug": "s214-clean-grid-acceleration-act",
+      "voteSlug": "senate-119-1-77",
+      "contributionIds": ["contrib-1", "contrib-2"],
+      "publicReason": "Verified committee-origin contributions occurred before a vote on a bill in the same documented topic area, and the member served on the related committee.",
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "senate-xml-index"]
+    },
+    {
+      "slug": "whitaker-pipeline-assessment",
+      "congress": 119,
+      "status": "ELIGIBLE",
+      "linkageConfidence": "HIGH",
+      "manualReviewRequired": false,
+      "eligibleFactorCount": 4,
+      "personSlug": "rep-james-whitaker",
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "billSlug": "hr1187-pipeline-permitting-streamlining-act",
+      "voteSlug": "house-119-1-312",
+      "contributionIds": ["contrib-3", "contrib-4"],
+      "publicReason": "Verified committee-origin contributions occurred before a House vote, repeated support was present in the current cycle, and the member served on the related committee.",
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "house-clerk-member-guide", "house-votes-index"]
+    },
+    {
+      "slug": "chen-bridge-assessment",
+      "congress": 119,
+      "status": "INSUFFICIENT_EVIDENCE",
+      "linkageConfidence": "LOW",
+      "manualReviewRequired": false,
+      "eligibleFactorCount": 1,
+      "personSlug": "sen-alex-chen",
+      "organizationSlug": "bridge-builders-action-fund",
+      "billSlug": null,
+      "voteSlug": null,
+      "contributionIds": ["contrib-6"],
+      "exclusionReasonCode": "MISSING_VERIFIED_LEGISLATIVE_ACTION",
+      "publicReason": "Insufficient evidence to score because the system found a verified money record but no verified legislative action in the scoped MVP data.",
+      "sourceSlugs": ["demo-methodology", "fec-pas2"]
+    },
+    {
+      "slug": "whitaker-bridge-assessment",
+      "congress": 119,
+      "status": "INSUFFICIENT_EVIDENCE",
+      "linkageConfidence": "LOW",
+      "manualReviewRequired": false,
+      "eligibleFactorCount": 1,
+      "personSlug": "rep-james-whitaker",
+      "organizationSlug": "bridge-builders-action-fund",
+      "billSlug": "hr4021-bridge-safety-modernization-act",
+      "voteSlug": "house-119-1-329",
+      "contributionIds": ["contrib-5"],
+      "exclusionReasonCode": "UNDOCUMENTED_INDUSTRY_CLASSIFICATION",
+      "publicReason": "Insufficient evidence to score because the organization-to-industry classification is not documented at high confidence, so the system does not infer topic alignment.",
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "house-votes-index"]
+    }
+  ],
+  "sources": [
+    {
+      "slug": "demo-methodology",
+      "label": "Demo methodology note",
+      "sourceSystem": "demo",
+      "url": "/methodology",
+      "recordScope": "Synthetic demo records and scoring explanation",
+      "isDemo": true,
+      "lastCheckedAt": "2026-04-02",
+      "note": "Demo data is synthetic and exists to safely illustrate the product."
+    },
+    {
+      "slug": "fec-pas2",
+      "label": "FEC committee-to-candidate contributions file description",
+      "sourceSystem": "fec",
+      "url": "https://www.fec.gov/campaign-finance-data/contributions-committees-candidates-file-description/",
+      "recordScope": "Official committee-to-candidate contribution schema",
+      "isDemo": true,
+      "lastCheckedAt": "2026-04-02"
+    },
+    {
+      "slug": "house-clerk-member-guide",
+      "label": "House member XML user guide",
+      "sourceSystem": "house-clerk",
+      "url": "https://clerk.house.gov/member_info/MemberData_UserGuide.pdf",
+      "recordScope": "Official current House member and committee assignment feed guide",
+      "isDemo": true,
+      "lastCheckedAt": "2026-04-02"
+    },
+    {
+      "slug": "senate-xml-index",
+      "label": "Senate XML availability index",
+      "sourceSystem": "senate",
+      "url": "https://www.senate.gov/general/common/generic/XML_Availability.htm",
+      "recordScope": "Official Senate XML feed registry",
+      "isDemo": true,
+      "lastCheckedAt": "2026-04-02"
+    },
+    {
+      "slug": "congress-api-overview",
+      "label": "Congress.gov API overview",
+      "sourceSystem": "congress",
+      "url": "https://github.com/LibraryOfCongress/api.congress.gov",
+      "recordScope": "Official Congress.gov API overview and coverage notes",
+      "isDemo": true,
+      "lastCheckedAt": "2026-04-02"
+    },
+    {
+      "slug": "govinfo-bills-help",
+      "label": "GovInfo bills help page",
+      "sourceSystem": "govinfo",
+      "url": "https://www.govinfo.gov/help/bills",
+      "recordScope": "Official GovInfo congressional bills collection guidance",
+      "isDemo": true,
+      "lastCheckedAt": "2026-04-02"
+    },
+    {
+      "slug": "house-votes-index",
+      "label": "House roll-call votes index",
+      "sourceSystem": "house-clerk",
+      "url": "https://clerk.house.gov/evs/index.htm",
+      "recordScope": "Official House recorded vote index",
+      "isDemo": true,
+      "lastCheckedAt": "2026-04-02"
+    }
+  ],
+  "signals": [
+    {
+      "slug": "maria-grid-118-review-signal",
+      "assessmentSlug": "maria-grid-118-assessment",
+      "congress": 118,
+      "signalKind": "DOCUMENTED_TOPIC_ALIGNMENT",
+      "severity": "LOW",
+      "score": 44,
+      "personSlug": "sen-maria-torres",
+      "organizationSlug": "clean-grid-pac",
+      "billSlug": "s1880-western-grid-reliability-act",
+      "voteSlug": "senate-118-2-201",
+      "title": "Earlier documented topic overlap produced a low-strength review signal",
+      "plainLanguageSummary": "In the selected Congress, documented committee-origin contributions arrived before a Senate vote on a bill in the same documented topic area, and the member served on the related committee.",
+      "explanation": "The system used only verified contribution records, an official vote record, documented topic classification, and committee context within the selected Congress. The signal is shown as a prompt for review, not as proof of wrongdoing.",
+      "limitations": "This signal does not show motive, private communications, or illegality. It reflects public records within the selected Congress and election cycle only.",
+      "confidenceLabel": "High-linkage, low-strength",
+      "factors": [
+        {
+          "factorKey": "timing_proximity",
+          "factorLabel": "Timing proximity",
+          "valueText": "48 days between the largest contribution and the vote",
+          "weight": 25,
+          "points": 12,
+          "evidenceKind": "DIRECT",
+          "explanation": "The contributions occurred before the vote and within the scoped timing window."
+        },
+        {
+          "factorKey": "documented_topic_alignment",
+          "factorLabel": "Documented topic alignment",
+          "valueText": "The donor committee has a documented high-confidence clean-energy classification tied to the bill topic",
+          "weight": 20,
+          "points": 16,
+          "evidenceKind": "DOCUMENTED_CLASSIFICATION",
+          "explanation": "Topic alignment was included only because the classification is documented and high confidence."
+        },
+        {
+          "factorKey": "committee_context",
+          "factorLabel": "Committee context",
+          "valueText": "The member served on the Senate energy committee when the vote occurred",
+          "weight": 10,
+          "points": 6,
+          "evidenceKind": "DIRECT",
+          "explanation": "Committee context adds review value but does not stand on its own."
+        },
+        {
+          "factorKey": "repeat_support",
+          "factorLabel": "Repeat support pattern",
+          "valueText": "Two verified contributions from the same donor committee in the selected cycle",
+          "weight": 15,
+          "points": 10,
+          "evidenceKind": "DIRECT",
+          "explanation": "Repeated support contributes modestly when the underlying records are verified."
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "senate-xml-index"]
+    },
+    {
+      "slug": "whitaker-pipeline-118-review-signal",
+      "assessmentSlug": "whitaker-pipeline-118-assessment",
+      "congress": 118,
+      "signalKind": "TIMING_CORRELATION",
+      "severity": "LOW",
+      "score": 52,
+      "personSlug": "rep-james-whitaker",
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "billSlug": "hr2710-pipeline-corridor-modernization-act",
+      "voteSlug": "house-118-2-441",
+      "title": "Earlier repeated support produced a low-strength review signal",
+      "plainLanguageSummary": "In the selected Congress, verified committee-origin contributions arrived before a House vote, repeated support was present in the selected cycle, and the member served on the related committee.",
+      "explanation": "The system combined verified money records, an official roll-call vote, before-vote timing, repeated support in the selected cycle, and committee context within the selected Congress. It does not compare this member to other people.",
+      "limitations": "This signal does not account for ideology, constituent preferences, negotiations, or nonpublic context. It is limited to selected-Congress and selected-cycle records within the MVP scope.",
+      "confidenceLabel": "High-linkage, low-strength",
+      "factors": [
+        {
+          "factorKey": "timing_proximity",
+          "factorLabel": "Timing proximity",
+          "valueText": "27 days between the largest contribution and the vote",
+          "weight": 25,
+          "points": 16,
+          "evidenceKind": "DIRECT",
+          "explanation": "Only contributions before the vote are counted toward timing."
+        },
+        {
+          "factorKey": "repeat_support",
+          "factorLabel": "Repeat support pattern",
+          "valueText": "Two verified contributions from the same donor committee in the selected cycle",
+          "weight": 15,
+          "points": 11,
+          "evidenceKind": "DIRECT",
+          "explanation": "Repeat support adds points only when the underlying records are verified."
+        },
+        {
+          "factorKey": "documented_topic_alignment",
+          "factorLabel": "Documented topic alignment",
+          "valueText": "The donor committee has a documented high-confidence pipeline classification tied to the bill topic",
+          "weight": 20,
+          "points": 17,
+          "evidenceKind": "DOCUMENTED_CLASSIFICATION",
+          "explanation": "No fuzzy industry matching was used."
+        },
+        {
+          "factorKey": "committee_context",
+          "factorLabel": "Committee context",
+          "valueText": "The member served on the House transportation committee when the vote occurred",
+          "weight": 10,
+          "points": 8,
+          "evidenceKind": "DIRECT",
+          "explanation": "Committee context adds review value but does not create a signal by itself."
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "house-clerk-member-guide", "house-votes-index"]
+    },
+    {
+      "slug": "maria-clean-grid-review-signal",
+      "assessmentSlug": "maria-clean-grid-assessment",
+      "congress": 119,
+      "signalKind": "DOCUMENTED_TOPIC_ALIGNMENT",
+      "severity": "LOW",
+      "score": 46,
+      "personSlug": "sen-maria-torres",
+      "organizationSlug": "clean-grid-pac",
+      "billSlug": "s214-clean-grid-acceleration-act",
+      "voteSlug": "senate-119-1-77",
+      "title": "Documented topic overlap and timing produced a low-strength review signal",
+      "plainLanguageSummary": "This review signal appears because documented committee-origin contributions arrived before a Senate vote on a bill in the same documented topic area, and the member served on the related committee.",
+      "explanation": "The system used only verified contribution records, an official vote record, documented topic classification, and a time-aware committee context. The signal is shown as a prompt for review, not as proof of wrongdoing.",
+      "limitations": "This signal does not show motive, private communications, or illegality. It reflects public records within the current Congress and current election cycle only.",
+      "confidenceLabel": "High-linkage, low-strength",
+      "factors": [
+        {
+          "factorKey": "timing_proximity",
+          "factorLabel": "Timing proximity",
+          "valueText": "28 days between the largest contribution and the vote",
+          "weight": 25,
+          "points": 15,
+          "evidenceKind": "DIRECT",
+          "explanation": "The contributions occurred before the vote and within the scoped timing window."
+        },
+        {
+          "factorKey": "documented_topic_alignment",
+          "factorLabel": "Documented topic alignment",
+          "valueText": "The donor committee has a documented high-confidence clean-energy classification tied to the bill topic",
+          "weight": 20,
+          "points": 16,
+          "evidenceKind": "DOCUMENTED_CLASSIFICATION",
+          "explanation": "Topic alignment was included only because the classification is documented and high confidence."
+        },
+        {
+          "factorKey": "committee_context",
+          "factorLabel": "Committee context",
+          "valueText": "The member served on the Senate energy committee when the vote occurred",
+          "weight": 10,
+          "points": 6,
+          "evidenceKind": "DIRECT",
+          "explanation": "Committee context adds review value but does not stand on its own."
+        },
+        {
+          "factorKey": "repeat_support",
+          "factorLabel": "Repeat support pattern",
+          "valueText": "Two verified contributions from the same donor committee in the current cycle",
+          "weight": 15,
+          "points": 9,
+          "evidenceKind": "DIRECT",
+          "explanation": "Repeated support contributes modestly when the underlying records are verified."
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "senate-xml-index"]
+    },
+    {
+      "slug": "whitaker-pipeline-review-signal",
+      "assessmentSlug": "whitaker-pipeline-assessment",
+      "congress": 119,
+      "signalKind": "TIMING_CORRELATION",
+      "severity": "MEDIUM",
+      "score": 64,
+      "personSlug": "rep-james-whitaker",
+      "organizationSlug": "national-pipeline-alliance-pac",
+      "billSlug": "hr1187-pipeline-permitting-streamlining-act",
+      "voteSlug": "house-119-1-312",
+      "title": "Repeated pre-vote committee support produced a medium-strength review signal",
+      "plainLanguageSummary": "This review signal appears because verified committee-origin contributions arrived before a House vote, repeated support was present in the current cycle, and the member served on the related committee.",
+      "explanation": "The system combined verified money records, an official roll-call vote, timing that occurred before the vote, repeated support in the current cycle, and time-aware committee context. It does not compare this member to other people.",
+      "limitations": "This signal does not account for ideology, constituent preferences, negotiations, or nonpublic context. It is limited to current-Congress and current-cycle records within the MVP scope.",
+      "confidenceLabel": "High-linkage, medium-strength",
+      "factors": [
+        {
+          "factorKey": "timing_proximity",
+          "factorLabel": "Timing proximity",
+          "valueText": "17 days between the largest contribution and the vote",
+          "weight": 25,
+          "points": 19,
+          "evidenceKind": "DIRECT",
+          "explanation": "Only contributions before the vote are counted toward timing."
+        },
+        {
+          "factorKey": "repeat_support",
+          "factorLabel": "Repeat support pattern",
+          "valueText": "Two verified contributions from the same donor committee in the current cycle",
+          "weight": 15,
+          "points": 13,
+          "evidenceKind": "DIRECT",
+          "explanation": "Repeat support adds points only when the underlying records are verified."
+        },
+        {
+          "factorKey": "documented_topic_alignment",
+          "factorLabel": "Documented topic alignment",
+          "valueText": "The donor committee has a documented high-confidence pipeline classification tied to the bill topic",
+          "weight": 20,
+          "points": 18,
+          "evidenceKind": "DOCUMENTED_CLASSIFICATION",
+          "explanation": "No fuzzy industry matching was used."
+        },
+        {
+          "factorKey": "committee_context",
+          "factorLabel": "Committee context",
+          "valueText": "The member served on the House transportation committee when the vote occurred",
+          "weight": 10,
+          "points": 8,
+          "evidenceKind": "DIRECT",
+          "explanation": "Committee context adds review value but does not create a signal by itself."
+        }
+      ],
+      "sourceSlugs": ["demo-methodology", "fec-pas2", "house-clerk-member-guide", "house-votes-index"]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Neutral lawmaker placeholder</title>
+  <desc id="desc">A neutral portrait placeholder used when no reliable official photo is available.</desc>
+  <rect width="256" height="256" rx="36" fill="#efe8dd"/>
+  <circle cx="128" cy="92" r="44" fill="#c7b8a0"/>
+  <path d="M64 208c8-38 31-58 64-58s56 20 64 58" fill="#d8cab4"/>
+  <path d="M86 70c11-16 26-24 42-24 23 0 41 15 47 38-10-8-23-12-38-12-16 0-33 5-51 15z" fill="#b49b82"/>
+</svg>

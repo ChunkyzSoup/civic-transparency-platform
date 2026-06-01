@@ -1,0 +1,18 @@
+[
+  {
+    "organizationName": "Clean Grid Association",
+    "industrySlug": "clean-energy",
+    "confidence": "high"
+  },
+  {
+    "organizationName": "National Pipeline Alliance",
+    "industrySlug": "pipeline-infrastructure",
+    "confidence": "high"
+  },
+  {
+    "organizationName": "Bridge Builders Coalition",
+    "industrySlug": "transportation-contracting",
+    "confidence": "medium"
+  }
+]
+

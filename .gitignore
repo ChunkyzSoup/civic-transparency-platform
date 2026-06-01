@@ -1,0 +1,12 @@
+.next
+node_modules
+.env
+.env.local
+.env.*.local
+dist
+coverage
+prisma/dev.db
+prisma/dev.db-journal
+*.log
+*.tsbuildinfo
+data/live/raw/

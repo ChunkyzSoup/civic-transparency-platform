@@ -1,0 +1,564 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Chamber {
+  HOUSE
+  SENATE
+  JOINT
+}
+
+enum Party {
+  DEMOCRATIC
+  REPUBLICAN
+  INDEPENDENT
+  OTHER
+}
+
+enum CommitteeRole {
+  CHAIR
+  RANKING_MEMBER
+  VICE_CHAIR
+  MEMBER
+  EX_OFFICIO
+}
+
+enum OrganizationType {
+  CAMPAIGN_COMMITTEE
+  PAC
+  PARTY_COMMITTEE
+  TRADE_ASSOCIATION
+  NONPROFIT
+  CORPORATION
+  OTHER
+}
+
+enum ContributionType {
+  CONTRIBUTION
+  INDEPENDENT_EXPENDITURE
+  TRANSFER
+  OTHER
+}
+
+enum ContributionEligibility {
+  ELIGIBLE
+  NOT_ELIGIBLE
+  REVIEW_REQUIRED
+}
+
+enum VoteChoice {
+  YEA
+  NAY
+  PRESENT
+  NOT_VOTING
+}
+
+enum IndustryAssignmentMethod {
+  OFFICIAL_CLASSIFICATION
+  CONNECTED_ORG_MATCH
+  MANUAL_RESEARCH
+  UNRESOLVED
+}
+
+enum LinkageConfidence {
+  HIGH
+  MEDIUM
+  LOW
+  NONE
+}
+
+enum TimingDirection {
+  BEFORE
+  SAME_DAY
+  AFTER
+  UNKNOWN
+}
+
+enum SignalKind {
+  TIMING_CORRELATION
+  COMMITTEE_ALIGNMENT
+  REPEAT_PATTERN
+  DOCUMENTED_TOPIC_ALIGNMENT
+}
+
+enum SignalSeverity {
+  LOW
+  MEDIUM
+}
+
+enum SignalStatus {
+  ACTIVE
+  SUPPRESSED
+}
+
+enum AssessmentStatus {
+  ELIGIBLE
+  INSUFFICIENT_EVIDENCE
+  EXCLUDED
+  MANUAL_REVIEW
+}
+
+enum ExclusionReasonCode {
+  LOW_LINKAGE_CONFIDENCE
+  CONTRIBUTION_AFTER_VOTE
+  NON_ELIGIBLE_CONTRIBUTION_TYPE
+  ONLY_ONE_FACTOR
+  MISSING_EFFECTIVE_DATES
+  OUTSIDE_CURRENT_CYCLE
+  OUTSIDE_CURRENT_CONGRESS
+  MISSING_VERIFIED_MONEY_RECORD
+  MISSING_VERIFIED_LEGISLATIVE_ACTION
+  UNDOCUMENTED_INDUSTRY_CLASSIFICATION
+}
+
+enum EvidenceKind {
+  DIRECT
+  DOCUMENTED_CLASSIFICATION
+  CONTEXTUAL
+}
+
+// FACTS LAYER
+
+model Person {
+  id                    String                @id @default(cuid())
+  slug                  String                @unique
+  displayName           String
+  firstName             String?
+  lastName              String?
+  party                 Party
+  chamber               Chamber
+  state                 String
+  district              String?
+  officeLabel           String
+  bioguideId            String?               @unique
+  fecCandidateId        String?               @unique
+  isCurrent             Boolean               @default(true)
+  summary               String?
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  officeTerms           PersonOfficeTerm[]
+  campaignCommittees    CampaignCommittee[]
+  committeeMemberships  CommitteeMembership[]
+  votePositions         VotePosition[]
+  receivedContributions Contribution[]        @relation("ContributionRecipientPerson")
+  contributionVoteLinkages ContributionVoteLinkage[]
+  committeeVoteLinkages CommitteeVoteLinkage[]
+  signalAssessments     SignalAssessment[]
+  signals               Signal[]
+}
+
+model PersonOfficeTerm {
+  id        String   @id @default(cuid())
+  personId  String
+  title     String
+  chamber   Chamber
+  state     String
+  district  String?
+  startDate DateTime
+  endDate   DateTime?
+  isCurrent Boolean  @default(false)
+  sourceUrl String?
+  person    Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@index([personId])
+}
+
+model CampaignCommittee {
+  id                   String         @id @default(cuid())
+  personId             String
+  name                 String
+  slug                 String         @unique
+  fecCommitteeId       String?        @unique
+  committeeType        String?
+  cycle                Int?
+  sourceUrl            String?
+  person               Person         @relation(fields: [personId], references: [id], onDelete: Cascade)
+  contributions        Contribution[] @relation("ContributionRecipientCommittee")
+
+  @@index([personId])
+}
+
+model Organization {
+  id                    String                        @id @default(cuid())
+  slug                  String                        @unique
+  name                  String
+  organizationType      OrganizationType
+  fecCommitteeId        String?                       @unique
+  connectedOrgName      String?
+  website               String?
+  summary               String?
+  createdAt             DateTime                      @default(now())
+  updatedAt             DateTime                      @updatedAt
+  industryAssignments   OrganizationIndustryAssignment[]
+  outgoingContributions Contribution[]
+  signalAssessments     SignalAssessment[]
+  signals               Signal[]
+}
+
+model Industry {
+  id          String                        @id @default(cuid())
+  slug        String                        @unique
+  name        String
+  description String?
+  assignments OrganizationIndustryAssignment[]
+  billTopics  BillTopicIndustry[]
+}
+
+model Committee {
+  id                     String                 @id @default(cuid())
+  slug                   String                 @unique
+  name                   String
+  chamber                Chamber
+  committeeCode          String?                @unique
+  summary                String?
+  memberships            CommitteeMembership[]
+  billReferrals          BillCommitteeReferral[]
+  committeeVoteLinkages  CommitteeVoteLinkage[]
+}
+
+model CommitteeMembership {
+  id                     String                 @id @default(cuid())
+  personId               String
+  committeeId            String
+  role                   CommitteeRole          @default(MEMBER)
+  startDate              DateTime?
+  endDate                DateTime?
+  isCurrent              Boolean                @default(true)
+  sourceUrl              String?
+  person                 Person                 @relation(fields: [personId], references: [id], onDelete: Cascade)
+  committee              Committee              @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+  committeeVoteLinkages  CommitteeVoteLinkage[]
+
+  @@unique([personId, committeeId, startDate])
+  @@index([committeeId])
+}
+
+model Bill {
+  id                     String                 @id @default(cuid())
+  slug                   String                 @unique
+  congress               Int
+  chamber                Chamber
+  billType               String
+  billNumber             Int
+  displayNumber          String
+  title                  String
+  summary                String?
+  officialUrl            String?
+  introducedAt           DateTime?
+  latestActionAt         DateTime?
+  statusText             String?
+  topicLinks             BillTopicAssignment[]
+  committeeRefs          BillCommitteeReferral[]
+  votes                  VoteEvent[]
+  contributionLinkages   ContributionVoteLinkage[]
+  committeeVoteLinkages  CommitteeVoteLinkage[]
+  signalAssessments      SignalAssessment[]
+  signals                Signal[]
+}
+
+model BillTopic {
+  id          String               @id @default(cuid())
+  slug        String               @unique
+  name        String
+  description String?
+  billLinks   BillTopicAssignment[]
+  industries  BillTopicIndustry[]
+}
+
+model BillTopicAssignment {
+  id        String   @id @default(cuid())
+  billId    String
+  topicId   String
+  isPrimary Boolean  @default(false)
+  bill      Bill     @relation(fields: [billId], references: [id], onDelete: Cascade)
+  topic     BillTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([billId, topicId])
+}
+
+model BillTopicIndustry {
+  id                  String            @id @default(cuid())
+  billTopicId         String
+  industryId          String
+  linkageConfidence   LinkageConfidence @default(NONE)
+  documentationUrl    String?
+  effectiveStartDate  DateTime?
+  effectiveEndDate    DateTime?
+  manualReviewRequired Boolean          @default(false)
+  exclusionReasonCode ExclusionReasonCode?
+  exclusionReasonText String?
+  billTopic           BillTopic         @relation(fields: [billTopicId], references: [id], onDelete: Cascade)
+  industry            Industry          @relation(fields: [industryId], references: [id], onDelete: Cascade)
+
+  @@unique([billTopicId, industryId])
+}
+
+model BillCommitteeReferral {
+  id          String    @id @default(cuid())
+  billId      String
+  committeeId String
+  referredAt  DateTime?
+  sourceUrl   String?
+  bill        Bill      @relation(fields: [billId], references: [id], onDelete: Cascade)
+  committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+
+  @@unique([billId, committeeId])
+}
+
+model VoteEvent {
+  id                    String                   @id @default(cuid())
+  slug                  String                   @unique
+  congress              Int
+  session               Int
+  chamber               Chamber
+  rollCallNumber        Int
+  question              String
+  resultText            String
+  voteDate              DateTime
+  sourceUrl             String?
+  billId                String?
+  bill                  Bill?                    @relation(fields: [billId], references: [id], onDelete: SetNull)
+  positions             VotePosition[]
+  contributionLinkages  ContributionVoteLinkage[]
+  committeeLinkages     CommitteeVoteLinkage[]
+  signalAssessments     SignalAssessment[]
+  signals               Signal[]
+}
+
+model VotePosition {
+  id          String     @id @default(cuid())
+  voteEventId String
+  personId    String
+  choice      VoteChoice
+  note        String?
+  voteEvent   VoteEvent  @relation(fields: [voteEventId], references: [id], onDelete: Cascade)
+  person      Person     @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([voteEventId, personId])
+}
+
+model Contribution {
+  id                    String                  @id @default(cuid())
+  donorOrganizationId   String
+  recipientPersonId     String?
+  recipientCommitteeId  String?
+  amount                Decimal                 @db.Decimal(12, 2)
+  contributionDate      DateTime
+  cycle                 Int
+  contributionType      ContributionType        @default(CONTRIBUTION)
+  contributionEligibility ContributionEligibility @default(ELIGIBLE)
+  isVerified            Boolean                 @default(true)
+  verifiedAt            DateTime?
+  memoText              String?
+  sourceRecordId        String?
+  sourceUrl             String?
+  donorOrganization     Organization            @relation(fields: [donorOrganizationId], references: [id], onDelete: Cascade)
+  recipientPerson       Person?                 @relation("ContributionRecipientPerson", fields: [recipientPersonId], references: [id], onDelete: SetNull)
+  recipientCommittee    CampaignCommittee?      @relation("ContributionRecipientCommittee", fields: [recipientCommitteeId], references: [id], onDelete: SetNull)
+  contributionVoteLinkages ContributionVoteLinkage[]
+
+  @@index([donorOrganizationId])
+  @@index([recipientPersonId])
+}
+
+model SourceReference {
+  id             String            @id @default(cuid())
+  slug           String            @unique
+  label          String
+  sourceSystem   String
+  url            String
+  recordScope    String
+  isDemo         Boolean           @default(false)
+  lastCheckedAt  DateTime?
+  note           String?
+  signalLinks    SignalSourceLink[]
+}
+
+// LINKAGE LAYER
+
+model OrganizationIndustryAssignment {
+  id                   String                   @id @default(cuid())
+  organizationId       String
+  industryId           String
+  method               IndustryAssignmentMethod
+  linkageConfidence    LinkageConfidence        @default(NONE)
+  isDocumented         Boolean                  @default(false)
+  documentationUrl     String?
+  effectiveStartDate   DateTime?
+  effectiveEndDate     DateTime?
+  manualReviewRequired Boolean                  @default(false)
+  exclusionReasonCode  ExclusionReasonCode?
+  exclusionReasonText  String?
+  note                 String?
+  organization         Organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  industry             Industry                 @relation(fields: [industryId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, industryId])
+  @@index([organizationId])
+  @@index([industryId])
+}
+
+model ContributionVoteLinkage {
+  id                   String            @id @default(cuid())
+  contributionId       String
+  voteEventId          String
+  personId             String
+  billId               String?
+  linkageConfidence    LinkageConfidence @default(NONE)
+  timingDirection      TimingDirection   @default(UNKNOWN)
+  daysBeforeVote       Int?
+  matchedCurrentCycle  Boolean           @default(false)
+  matchedCurrentCongress Boolean         @default(false)
+  manualReviewRequired Boolean           @default(false)
+  exclusionReasonCode  ExclusionReasonCode?
+  exclusionReasonText  String?
+  explanation          String?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  contribution         Contribution      @relation(fields: [contributionId], references: [id], onDelete: Cascade)
+  voteEvent            VoteEvent         @relation(fields: [voteEventId], references: [id], onDelete: Cascade)
+  person               Person            @relation(fields: [personId], references: [id], onDelete: Cascade)
+  bill                 Bill?             @relation(fields: [billId], references: [id], onDelete: SetNull)
+  assessments          SignalAssessment[]
+
+  @@unique([contributionId, voteEventId])
+  @@index([personId, voteEventId])
+}
+
+model CommitteeVoteLinkage {
+  id                     String            @id @default(cuid())
+  committeeMembershipId  String
+  voteEventId            String
+  personId               String
+  committeeId            String
+  billId                 String?
+  linkageConfidence      LinkageConfidence @default(NONE)
+  membershipEffectiveOnVote Boolean        @default(false)
+  manualReviewRequired   Boolean           @default(false)
+  exclusionReasonCode    ExclusionReasonCode?
+  exclusionReasonText    String?
+  explanation            String?
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  committeeMembership    CommitteeMembership @relation(fields: [committeeMembershipId], references: [id], onDelete: Cascade)
+  voteEvent              VoteEvent         @relation(fields: [voteEventId], references: [id], onDelete: Cascade)
+  person                 Person            @relation(fields: [personId], references: [id], onDelete: Cascade)
+  committee              Committee         @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+  bill                   Bill?             @relation(fields: [billId], references: [id], onDelete: SetNull)
+  assessments            SignalAssessment[]
+
+  @@unique([committeeMembershipId, voteEventId])
+  @@index([personId, voteEventId])
+}
+
+// SIGNAL LAYER
+
+model SignalAssessment {
+  id                        String                 @id @default(cuid())
+  slug                      String                 @unique
+  status                    AssessmentStatus
+  linkageConfidence         LinkageConfidence      @default(NONE)
+  manualReviewRequired      Boolean                @default(false)
+  exclusionReasonCode       ExclusionReasonCode?
+  exclusionReasonText       String?
+  eligibleFactorCount       Int                    @default(0)
+  methodologyVersion        String
+  computedAt                DateTime               @default(now())
+  publicReason              String?
+  personId                  String
+  organizationId            String?
+  billId                    String?
+  voteEventId               String?
+  contributionVoteLinkageId String?
+  committeeVoteLinkageId    String?
+  person                    Person                 @relation(fields: [personId], references: [id], onDelete: Cascade)
+  organization              Organization?          @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  bill                      Bill?                  @relation(fields: [billId], references: [id], onDelete: SetNull)
+  voteEvent                 VoteEvent?             @relation(fields: [voteEventId], references: [id], onDelete: SetNull)
+  contributionVoteLinkage   ContributionVoteLinkage? @relation(fields: [contributionVoteLinkageId], references: [id], onDelete: SetNull)
+  committeeVoteLinkage      CommitteeVoteLinkage?  @relation(fields: [committeeVoteLinkageId], references: [id], onDelete: SetNull)
+  signal                    Signal?
+
+  @@index([personId, computedAt])
+}
+
+model Signal {
+  id                   String           @id @default(cuid())
+  slug                 String           @unique
+  assessmentId         String?          @unique
+  signalKind           SignalKind
+  severity             SignalSeverity
+  status               SignalStatus     @default(ACTIVE)
+  score                Int
+  title                String
+  plainLanguageSummary String
+  explanation          String
+  limitations          String
+  confidenceLabel      String
+  methodologyVersion   String
+  computedAt           DateTime         @default(now())
+  personId             String?
+  organizationId       String?
+  billId               String?
+  voteEventId          String?
+  assessment           SignalAssessment? @relation(fields: [assessmentId], references: [id], onDelete: SetNull)
+  person               Person?          @relation(fields: [personId], references: [id], onDelete: SetNull)
+  organization         Organization?    @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  bill                 Bill?            @relation(fields: [billId], references: [id], onDelete: SetNull)
+  voteEvent            VoteEvent?       @relation(fields: [voteEventId], references: [id], onDelete: SetNull)
+  factors              SignalFactor[]
+  sourceLinks          SignalSourceLink[]
+
+  @@index([personId])
+}
+
+model SignalFactor {
+  id           String       @id @default(cuid())
+  signalId     String
+  factorKey    String
+  factorLabel  String
+  valueText    String
+  weight       Int
+  points       Int
+  evidenceKind EvidenceKind
+  explanation  String
+  signal       Signal       @relation(fields: [signalId], references: [id], onDelete: Cascade)
+
+  @@index([signalId])
+}
+
+model SignalSourceLink {
+  id                String          @id @default(cuid())
+  signalId          String
+  sourceReferenceId String
+  signal            Signal          @relation(fields: [signalId], references: [id], onDelete: Cascade)
+  sourceReference   SourceReference @relation(fields: [sourceReferenceId], references: [id], onDelete: Cascade)
+
+  @@unique([signalId, sourceReferenceId])
+}
+
+model Alias {
+  id         String   @id @default(cuid())
+  entityType String
+  entityId   String
+  value      String
+  isPrimary  Boolean  @default(false)
+
+  @@index([entityType, entityId])
+}
+
+model ExternalIdentifier {
+  id         String   @id @default(cuid())
+  entityType String
+  entityId   String
+  system     String
+  value      String
+
+  @@unique([entityType, system, value])
+  @@index([entityType, entityId])
+}
