@@ -121,6 +121,32 @@ If that file is not present, the app falls back to:
 
 - `data/demo/mvp-seed.json`
 
+## Handling large live seed files
+
+`data/live/current-congress/live-seed.json` can be very large (the repo contains an ~88MB example). You have two safe options:
+
+- Use Git LFS to track large seed files so they don't bloat normal Git objects. Example commands:
+
+```bash
+git lfs install
+git lfs track "data/live/**"
+git add .gitattributes
+git add data/live/current-congress/live-seed.json
+git commit -m "Track live seed with Git LFS"
+git push origin main
+```
+
+If `live-seed.json` is already in your history and you want to migrate it into LFS, use:
+
+```bash
+git lfs migrate import --include="data/live/**"
+git push --force
+```
+
+- Or keep the live seed out of the repository entirely and store it externally (S3, local mount, or a database). In that case, add instructions for collaborators in this README and consider adding `data/live/` to `.gitignore`.
+
+If you'd like, I can set up `.gitattributes` (already added) and help migrate the existing large file into LFS or remove it from Git history.
+
 ## Core Pages
 
 - `/` home and search
